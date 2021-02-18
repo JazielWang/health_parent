@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Jaziel.dao.SetmealDao">
+    <resultMap id="baseResultMap" type="com.Jaziel.pojo.Setmeal">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+
+    <resultMap id="findByIdResultMap" type="com.Jaziel.pojo.Setmeal" extends="baseResultMap">
+        <!--多对多映射-->
+        <collection
+                property="checkGroups"
+                ofType="com.Jaziel.pojo.CheckGroup"
+                select="com.Jaziel.dao.CheckGroupDao.findCheckGroupById"
+                column="id"
+        >
+        </collection>
+    </resultMap>
+
+    <!--插入检查项-->
+    <insert id="add" parameterType="setmeal">
+        <selectKey order="AFTER" resultType="integer" keyProperty="id">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal(code, name, sex, age, helpCode, price, remark, attention, img)
+        values (#{code}, #{name}, #{sex}, #{age}, #{helpCode}, #{price}, #{remark}, #{attention}, #{img})
+    </insert>
+
+    <!--设置t_setmeal_checkgroud中间表-->
+    <insert id="setGroupAndMeal" parameterType="hashmap">
+        insert into t_setmeal_checkgroup(setmeal_id, checkgroup_id)
+        VALUES (#{setmealId}, #{checkGroupIds})
+    </insert>
+
+    <!--根据条件重悬预约项-->
+    <select id="findByCondition" resultType="setmeal">
+        select *
+        from t_setmeal
+        <if test="value != null and value.length > 0">
+            where code = #{value}
+            or name = #{value}
+            or helpCode = #{value}
+        </if>
+
+    </select>
+
+    <!--查询所有预约项信息-->
+    <select id="findAll" resultType="setmeal">
+        select *
+        from t_setmeal
+    </select>
+
+    <!--根据套餐ID查询套餐详情（包含套餐基本信息、检查组信息、检查项信息）-->
+    <select id="findById" parameterType="int" resultMap="findByIdResultMap">
+        select * from t_setmeal where id = #{id}
+    </select>
+
+    <select id="findSetmealById" resultType="com.Jaziel.pojo.Setmeal" parameterType="int">
+        select * from t_setmeal where id = #{id}
+    </select>
+    <select id="getSetmealReport" resultType="java.util.Map">
+        select s.name, count(o.id) value from t_order o, t_setmeal s where s.id = o.setmeal_id group by s.name
+    </select>
+
+</mapper>
