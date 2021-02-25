@@ -19,6 +19,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -75,5 +76,15 @@ public class SetMealController {
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean) {
         return setmealService.findPage(queryPageBean);
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll() {
+        try {
+            List<Setmeal> all = setmealService.findAll();
+            return new Result(true, MessageConstant.GET_SETMEAL_COUNT_REPORT_SUCCESS, all);
+        }catch (Exception e){
+            return new Result(false, MessageConstant.GET_SETMEAL_COUNT_REPORT_FAIL);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.Jaziel.service;
 
+import com.Jaziel.entity.PageResult;
+import com.Jaziel.entity.QueryPageBean;
 import com.Jaziel.pojo.OrderSetting;
 
 import java.util.List;

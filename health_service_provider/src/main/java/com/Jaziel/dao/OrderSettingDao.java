@@ -1,6 +1,8 @@
 package com.Jaziel.dao;
 
+import com.Jaziel.pojo.OrderList;
 import com.Jaziel.pojo.OrderSetting;
+import com.github.pagehelper.Page;
 
 import java.util.Date;
 import java.util.List;
@@ -23,5 +25,4 @@ public interface OrderSettingDao {
     List<OrderSetting> getOrderSettingByDate(Map<String, String> mapDate);
     //根据预约日期查询预约设置信息
     public OrderSetting findByOrderDate(Date orderDate);
-
 }

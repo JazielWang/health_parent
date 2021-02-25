@@ -1,6 +1,8 @@
 package com.Jaziel.controller;
 
 import com.Jaziel.constant.MessageConstant;
+import com.Jaziel.entity.PageResult;
+import com.Jaziel.entity.QueryPageBean;
 import com.Jaziel.entity.Result;
 import com.Jaziel.pojo.OrderSetting;
 import com.Jaziel.service.OrderSettingService;

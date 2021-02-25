@@ -4,13 +4,18 @@ import com.Jaziel.constant.MessageConstant;
 import com.Jaziel.dao.MemberDao;
 import com.Jaziel.dao.OrderDao;
 import com.Jaziel.dao.OrderSettingDao;
+import com.Jaziel.entity.PageResult;
+import com.Jaziel.entity.QueryPageBean;
 import com.Jaziel.entity.Result;
 import com.Jaziel.pojo.Member;
 import com.Jaziel.pojo.Order;
+import com.Jaziel.pojo.OrderList;
 import com.Jaziel.pojo.OrderSetting;
 import com.Jaziel.service.OrderService;
 import com.Jaziel.utils.DateUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,5 +103,18 @@ public class OrderServiceImpl implements OrderService {
             map.put("orderDate",DateUtils.parseDate2String(orderDate));
         }
         return map;
+    }
+
+    @Override
+    public PageResult findPage(QueryPageBean queryPageBean) {
+        String queryString = queryPageBean.getQueryString();
+        Integer pageSize = queryPageBean.getPageSize();
+        Integer currentPage = queryPageBean.getCurrentPage();
+        PageHelper.startPage(currentPage, pageSize);
+
+        Page<Map> orderSettings = orderDao.findByQuery(queryString);
+        List<Map> rows = orderSettings.getResult();
+        long total = orderSettings.getTotal();
+        return new PageResult(total, rows);
     }
 }

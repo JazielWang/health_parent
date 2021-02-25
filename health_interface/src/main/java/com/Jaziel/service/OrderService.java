@@ -1,5 +1,7 @@
 package com.Jaziel.service;
 
+import com.Jaziel.entity.PageResult;
+import com.Jaziel.entity.QueryPageBean;
 import com.Jaziel.entity.Result;
 
 import java.util.Map;
@@ -13,4 +15,6 @@ public interface OrderService {
     public Result submit(Map<String, Object> map) throws Exception;
 
     Map<String, Object> findByid(int id) throws Exception;
+
+    PageResult findPage(QueryPageBean queryPageBean);
 }

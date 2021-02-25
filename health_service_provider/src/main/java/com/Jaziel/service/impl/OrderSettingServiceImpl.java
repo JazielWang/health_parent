@@ -1,9 +1,13 @@
 package com.Jaziel.service.impl;
 
 import com.Jaziel.dao.OrderSettingDao;
+import com.Jaziel.entity.PageResult;
+import com.Jaziel.entity.QueryPageBean;
 import com.Jaziel.pojo.OrderSetting;
 import com.Jaziel.service.OrderSettingService;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
