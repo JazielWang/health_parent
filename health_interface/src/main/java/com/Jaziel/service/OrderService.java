@@ -17,4 +17,10 @@ public interface OrderService {
     Map<String, Object> findByid(int id) throws Exception;
 
     PageResult findPage(QueryPageBean queryPageBean);
+
+    Result add(Map<String, Object> formData, Integer[] orderIds) throws Exception;
+
+    void confirm(Integer id);
+
+    void delete(Integer id);
 }

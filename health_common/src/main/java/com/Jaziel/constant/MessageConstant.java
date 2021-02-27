@@ -65,4 +65,22 @@ public class MessageConstant {
     public static final String GET_BUSINESS_REPORT_FAIL = "获取运营统计数据失败";
     public static final String GET_SETMEAL_LIST_SUCCESS = "查询套餐列表数据成功";
     public static final String GET_SETMEAL_LIST_FAIL = "查询套餐列表数据失败";
+    public static final String ORDER_CONFIRM_SUCCESS = "确认预约成功";
+    public static final String ORDER_CONFIRM_FAIL = "确认预约失败";
+    public static final String ORDER_DELETE_SUCCESS = "删除预约成功";
+    public static final String ORDER_DELETE_FAIL = "删除预约失败";
+    public static final String USER_ADD_SUCCESS = "用户添加成功";
+    public static final String USER_ADD_FAIL = "用户添加失败";
+    public static final String CHANGE_ROLE_SUCCESS = "更改用户角色成功";
+    public static final String CHANGE_ROLE_FAIL = "更改用户角色失败";
+    public static final String GET_ROLE_SUCCESS = "获取用户角色成功";
+    public static final String GET_ROLE_FAIL = "获取用户角色失败";
+    public static final String ROLE_ADD_SUCCESS = "角色添加成功";
+    public static final String ROLE_ADD_FAIL = "角色添加失败";
+    public static final String PERMISSION_ADD_SUCCESS = "权限添加成功";
+    public static final String PERMISSION_ADD_FAIL = "权限添加失败";
+    public static final String PERMISSION_QUERY_SUCCESS = "权限获取成功";
+    public static final String PERMISSION_QUERY_FAIL = "权限获取失败";
+    public static final String GET_PERMISSION_SUCCESS = "获取角色权限成功";
+    public static final String GET_PERMISSION_FAIL = "获取角色权限失败";
 }

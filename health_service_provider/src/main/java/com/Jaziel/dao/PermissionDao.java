@@ -2,6 +2,7 @@ package com.Jaziel.dao;
 
 import com.Jaziel.pojo.Permission;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,4 +11,7 @@ import java.util.Set;
  */
 public interface PermissionDao {
     Set<Permission> findByRoleId(Integer roleId);
+
+    List<Permission> findALl();
+
 }

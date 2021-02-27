@@ -17,8 +17,9 @@ public interface OrderDao {
     public Integer findVisitsCountByDate(String date);
     public Integer findVisitsCountAfterDate(String date);
     public List<Map> findHotSetmeal();
-
     Page<Map> findByQuery(String queryString);
+    void confirm(Integer id);
 
+    void delete(Integer id);
 
 }

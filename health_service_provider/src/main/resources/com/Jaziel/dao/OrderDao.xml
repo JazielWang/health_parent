@@ -18,6 +18,16 @@
         insert into t_order(member_id,orderDate,orderType,orderStatus,setmeal_id)
         values (#{memberId},#{orderDate},#{orderType},#{orderStatus},#{setmealId})
     </insert>
+    <update id="confirm" parameterType="integer">
+        update t_order
+        set orderStatus='已到诊'
+        where id = #{id}
+    </update>
+    <delete id="delete" parameterType="integer">
+        delete
+        from t_order
+        where id = #{id}
+    </delete>
 
     <!--动态条件查询-->
     <select id="findByCondition" parameterType="order" resultMap="baseResultMap">
@@ -95,7 +105,8 @@
         limit 0,4
     </select>
     <select id="findByQuery" resultType="map" parameterType="string">
-        select * from (select m.name, m.phoneNumber, o.orderDate, o.orderStatus, o.orderType from t_member m, t_order o
+        select * from (select o.id, m.name, m.phoneNumber, o.orderDate, o.orderStatus, o.orderType from t_member m,
+        t_order o
         where m.id = o.member_id
         ) mo
         <if test="value != null and value.length > 0">

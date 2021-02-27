@@ -96,7 +96,6 @@
                                         <el-col :span="12">
                                             <el-form-item label="性别">
                                                 <el-select v-model="formData.sex">
-                                                    <el-option label="不限" value="0"></el-option>
                                                     <el-option label="男" value="1"></el-option>
                                                     <el-option label="女" value="2"></el-option>
                                                 </el-select>
@@ -169,6 +168,7 @@
 <!-- 引入组件库 -->
 <script src="../js/vue.js"></script>
 <script src="../plugins/elementui/index.js"></script>
+<script src="../plugins/healthmobile.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script src="../js/axios-0.18.0.js"></script>
 
@@ -210,17 +210,22 @@
                 }
             },
 
-            //添加
-            handleAdd() {
+            // 验证手机号和身份证
+            // 调用组件中的方法的时候需要先引入链接
+            test(){
                 var idCard = this.formData.idCard;
-                var telephone = this.formData.phoneNumber;
+                var phoneNumber = this.formData.phoneNumber;
                 if (!checkIdCard(idCard)){
                     this.$message.error("身份证输入有误，请重新输入");
                     return false;
-                }else if (!checkTelephone(telephone)){
+                }
+                if (!checkTelephone(phoneNumber)){
                     this.$message.error("电话号码有误，请重新输入");
                     return false;
                 }
+            },
+            //添加
+            handleAdd() {
                 //进行表单校验
                 this.$refs['dataAddForm'].validate((valid) => {
                     if (valid) {
@@ -228,7 +233,8 @@
                         console.log(this.formData);
                         //关闭新增窗口
                         this.dialogFormVisible = false;
-                        axios.post("/order/adda.do?orderIds=" + this.orderIds, this.formData).then((res) => {
+                        this.test();
+                        axios.post("/order/add.do?orderIds=" + this.orderIds, this.formData).then((res) => {
                             if (res.data.flag) {//执行成功
                                 //新增成功后，重新调用分页查询方法，查询出最新的数据
                                 this.findPage();
@@ -291,9 +297,20 @@
                     }
                 });
             },
-
+            // 确认预约
             confirmOrder(row) {
-
+                // alert(row.id);
+                axios.post("/order/confirm.do?id=" + row.id).then((res) => {
+                    if (res.data.flag){
+                        this.findPage();
+                        this.$message({
+                           type:'success',
+                           message: res.data.message
+                        });
+                    }else {
+                        this.$message.error("确认预约失败");
+                    }
+                });
             },
             //切换页码
             handleCurrentChange(currentPage) {
@@ -304,6 +321,17 @@
             },
             // 删除
             deleteOrder(row) {
+                axios.post("/order/delete.do?id=" + row.id).then((res) => {
+                    if (res.data.flag){
+                        this.findPage();
+                        this.$message({
+                            message: res.data.message,
+                            type: 'success'
+                        });
+                    }else {
+                        this.$message.error(res.data.message);
+                    }
+                });
             }
         }
     })

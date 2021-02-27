@@ -117,4 +117,62 @@ public class OrderServiceImpl implements OrderService {
         long total = orderSettings.getTotal();
         return new PageResult(total, rows);
     }
+
+    @Override
+    public Result add(Map<String, Object> formData, Integer[] orderIds) throws Exception {
+
+        String orderDate = (String) formData.get("orderDate");
+        OrderSetting orderSetting = orderSettingDao.findByOrderDate(DateUtils.parseString2Date(orderDate));
+        if (orderSetting == null) {
+            return new Result(false, MessageConstant.SELECTED_DATE_CANNOT_ORDER);
+        }
+        //2、检查用户所选择的预约日期是否已经约满，如果已经约满则无法预约
+        int number = orderSetting.getNumber();
+        int reservations = orderSetting.getReservations();
+        //
+        if (reservations >= number) {
+            return new Result(false, MessageConstant.ORDER_FULL);
+        }
+
+        //3、检查用户是否重复预约（同一个用户在同一天预约了同一个套餐），如果是重复预约则无法完成再次预约
+        String phoneNumber = (String) formData.get("phoneNumber");
+        Member member = memberDao.findByTelephone(phoneNumber);
+        if (member == null){
+            member = new Member();
+            String name = (String) formData.get("name");
+            String sex = (String) formData.get("sex");
+            String idCard = (String) formData.get("idCard");
+            String birthday = (String) formData.get("birthday");
+            member.setName(name);
+            member.setSex(sex);
+            member.setPhoneNumber(phoneNumber);
+            member.setBirthday(DateUtils.parseString2Date(birthday));
+            member.setIdCard(idCard);
+            memberDao.add(member);
+        }
+        for (Integer orderId : orderIds) {
+            Order order = new Order();
+            order.setMemberId(member.getId());//设置会员ID
+            order.setOrderDate(DateUtils.parseString2Date(orderDate));//预约日期
+            order.setOrderType("电话预约");//预约类型
+            order.setOrderStatus(Order.ORDERSTATUS_NO);//到诊状态
+            order.setSetmealId(orderId);//套餐ID
+            orderDao.add(order);
+        }
+        // 跟新预约人数
+        orderSetting.setReservations(orderSetting.getReservations() + 1);
+        orderSettingDao.editReservationsByOrderDate(orderSetting);
+        return new Result(true, MessageConstant.ORDER_SUCCESS);
+    }
+
+    @Override
+    public void confirm(Integer id) {
+        orderDao.confirm(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        orderDao.delete(id);
+        System.out.println(id);
+    }
 }

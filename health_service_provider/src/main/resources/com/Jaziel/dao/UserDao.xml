@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.Jaziel.dao.UserDao" >
-
+<mapper namespace="com.Jaziel.dao.UserDao">
+    <insert id="add" parameterType="user">
+        insert into t_user(birthday, gender, username, password, remark, station, telephone)
+        VALUES (#{birthday}, #{gender}, #{username}, #{password}, #{remark}, #{station}, #{telephone})
+    </insert>
+    <update id="setUserAndRoleRel" parameterType="map">
+        insert into t_user_role(user_id, role_id)
+        VALUES (#{userId}, #{roleId})
+    </update>
+    <delete id="deleteByUser" parameterType="integer">
+        delete
+        from t_user_role
+        where user_id = #{userId}
+    </delete>
     <select id="findByUsername" resultType="user" parameterType="string">
-        select * from t_user where username = #{username}
+        select *
+        from t_user
+        where username = #{username}
     </select>
+    <select id="queryByCondition" resultType="user" parameterType="string">
+        select *
+        from t_user
+        <if test="value != null and value.length > 0">
+            where username = #{username}
+        </if>
+    </select>
+    <select id="findByTelephone" resultType="user" parameterType="string">
+        select * from t_user
+        <if test="value != null and value.length > 0">
+            where telephone = #{telephone}
+        </if>
+    </select>
+    <select id="findRoleIdsByUserIds" resultType="integer" parameterType="integer">
+        select role_id
+        from t_user_role
+        where user_id = #{id}
+    </select>
+
 </mapper>
