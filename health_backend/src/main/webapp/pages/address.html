@@ -97,17 +97,9 @@
 <!-- 引入组件库 -->
 <script type="text/javascript">
     window.init = function () {
-        var map = new AMap.Map('container', {
-            resizeEnable: true,
-            center: [116.480983, 39.989628],
-            zoom: 11
-        });
-        if (location.href.indexOf('guide=1') !== -1) {
-            map.setStatus({scrollWheel: false});
-            map.plugin(["AMap.ToolBar"], function () {
-                map.addControl(new AMap.ToolBar({liteStyle: true}))
-            });
-        }
+        var map = new AMap.Map('container');
+        map.setZoom(10);              //setzoom 指定缩放级别
+        map.setCenter([116.39,39.9]);  //指定地图中心
     }
 </script>
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=85269dd464f43a541e875bea0147598c&callback=init"></script>
@@ -116,6 +108,11 @@
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script src="../js/axios-0.18.0.js"></script>
 <script>
+    setTimeout(function () {
+        var map_02 = new AMap.Map('container_02');
+        map_02.setZoom(10);
+        map_02.setCenter([116.39,39.9]);
+    }, 500);
     var vue = new Vue({
         el: '#app',
         data: {
@@ -129,7 +126,6 @@
             formData: {},//表单数据
             dialogFormVisible: false,//增加表单是否可见
             rules: {//校验规则
-
             }
         },
         //钩子函数，VUE对象初始化完成后自动执行
@@ -137,12 +133,6 @@
             this.findPage();//VUE对象初始化完成后调用分页查询方法，完成分页查询
         },
         methods: {
-            menuTree(){
-                this.reFresh= false
-                this.$nextTick(()=>{
-                    this.reFresh = true
-                })
-            },
             // 显示权限消息
             showMessage(res) {
                 if (res === 'Error: Request failed with status code 403') {
@@ -207,23 +197,23 @@
                 this.formData = {};//重置数据
                 //this.$refs['dataAddForm'].resetFields();
             },
+
             // 弹出添加窗口
             handleCreate() {
+                this.resetForm();
                 //弹出新增窗口
                 this.dialogFormVisible = true;
                 // 在这里使用$nextTick初始化地图插件即可
                 this.$nextTick(() => {
                     this.init_map();
                 });
-                this.resetForm();
+
             },
             init_map(){
                 window.init = function () {
-                    var map_02 = new AMap.Map('container_02', {
-                        resizeEnable: true,
-                        center: [116.480983, 39.989628],
-                        zoom: 11
-                    });
+                    var map_02 = new AMap.Map('container_02');
+                    map_02.setZoom(10);
+                    map_02.setCenter([116.39,39.9]);
                 }
             },
             //切换页码

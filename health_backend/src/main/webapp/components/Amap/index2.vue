@@ -3,6 +3,7 @@
   </div>
 </template>
 <script>
+const Map = window.Map;
 export default {
   name: 'Map',
   props: {
