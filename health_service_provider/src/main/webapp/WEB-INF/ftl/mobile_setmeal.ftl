@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no,minimal-ui">
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../img/asset-favico.ico">
     <title>预约</title>
-    <link rel="stylesheet" href="../css/page-health-order.css" />
+    <link rel="stylesheet" href="../css/page-health-order.css"/>
 </head>
 <body data-spy="scroll" data-target="#myNavbar" data-offset="150">
 <div class="app" id="app">

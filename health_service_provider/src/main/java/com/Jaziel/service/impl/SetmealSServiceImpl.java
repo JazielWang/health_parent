@@ -65,9 +65,8 @@ public class SetmealSServiceImpl implements SetmealService {
 
     // 生成套餐详情静态页面（多个）
     private void generateMobileSetmealDetailHtml(List<Setmeal> setmealList) {
-        Map<String, Object> map = null;
+        Map<String, Object> map = new HashMap<>();
         for (Setmeal setmeal : setmealList) {
-            map = new HashMap<>();
             // 此处map的key必须和.ftl 文件中定义的变量名称一致，否则会无法访问到
             map.put("setmeal", setmealDao.findById(setmeal.getId()));
             generateStaticHtml("mobile_setmeal_detail.ftl", "setmeal_detail_" + setmeal.getId() + ".html", map);
@@ -82,6 +81,7 @@ public class SetmealSServiceImpl implements SetmealService {
     }
 
     private void generateStaticHtml(String templateName, String htmlName, Map<String, Object> dataMap) {
+        //1.创建配置类
         Configuration configuration = freeMarkerConfigurer.getConfiguration();
         Writer out = null;
         try {
