@@ -94,25 +94,25 @@
     </div>
 </div>
 </body>
-<!-- 引入组件库 -->
-<script type="text/javascript">
-    window.init = function () {
-        var map = new AMap.Map('container');
-        map.setZoom(10);              //setzoom 指定缩放级别
-        map.setCenter([116.39,39.9]);  //指定地图中心
-    }
-</script>
 <script src="https://webapi.amap.com/maps?v=1.4.15&key=85269dd464f43a541e875bea0147598c&callback=init"></script>
 <script src="../js/vue.js"></script>
 <script src="../plugins/elementui/index.js"></script>
 <script type="text/javascript" src="../js/jquery.min.js"></script>
 <script src="../js/axios-0.18.0.js"></script>
-<script>
-    setTimeout(function () {
+<script type="text/javascript">
+    window.init = function () {
+        var map = new AMap.Map('container');
+        map.setZoom(10);              //setzoom 指定缩放级别
+        map.setCenter([116.39,39.9]);  //指定地图中心
+        var map2 = new AMap.Map('container_02');
+        map2.setZoom(10);              //setzoom 指定缩放级别
+        map2.setCenter([116.39,39.9]);  //指定地图中心
+    };
+    /*setTimeout(function () {
         var map_02 = new AMap.Map('container_02');
         map_02.setZoom(10);
         map_02.setCenter([116.39,39.9]);
-    }, 500);
+    }, 500);*/
     var vue = new Vue({
         el: '#app',
         data: {
@@ -203,18 +203,7 @@
                 this.resetForm();
                 //弹出新增窗口
                 this.dialogFormVisible = true;
-                // 在这里使用$nextTick初始化地图插件即可
-                this.$nextTick(() => {
-                    this.init_map();
-                });
 
-            },
-            init_map(){
-                window.init = function () {
-                    var map_02 = new AMap.Map('container_02');
-                    map_02.setZoom(10);
-                    map_02.setCenter([116.39,39.9]);
-                }
             },
             //切换页码
             handleCurrentChange(currentPage) {
